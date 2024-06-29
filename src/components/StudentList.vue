@@ -19,6 +19,7 @@ const students = ref([]);
 const currentStudentIndex = ref(null);
 const studentFormRef = ref(null);
 
+// 加载数据
 const loadStudents = () => {
   const savedStudents = localStorage.getItem('students');
   if (savedStudents) {
@@ -26,10 +27,12 @@ const loadStudents = () => {
   }
 };
 
+// 保存数据
 const saveStudents = () => {
   localStorage.setItem('students', JSON.stringify(students.value));
 };
 
+// 添加
 const addStudent = (student) => {
   if (currentStudentIndex.value !== null) {
     students.value.splice(currentStudentIndex.value, 1);
@@ -39,12 +42,14 @@ const addStudent = (student) => {
   currentStudentIndex.value = null;
 };
 
+// 编辑
 const editStudent = (index) => {
   const student = students.value[index];
   studentFormRef.value.setStudent(student);
   currentStudentIndex.value = index;
 };
 
+// 删除
 const removeStudent = (index) => {
   students.value.splice(index, 1);
   saveStudents();

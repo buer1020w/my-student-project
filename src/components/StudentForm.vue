@@ -15,6 +15,7 @@ const id = ref(null);
 const number = ref('');
 const age = ref('');
 
+// 提交
 const submit = () => {
   if (!name.value || !number.value || !age.value) return;
   const student = {
@@ -23,11 +24,12 @@ const submit = () => {
     number: number.value,
     age: age.value
   };
-
+  // 触发 'add-student' 事件，传递学生对象
   emit('add-student', student);
   resetForm();
 };
 
+// 设置数据
 const setStudent = (student) => {
   name.value = student.name;
   id.value = student.id;
@@ -35,6 +37,7 @@ const setStudent = (student) => {
   age.value = student.age;
 };
 
+// 重置
 const resetForm = () => {
   name.value = '';
   id.value = null;
