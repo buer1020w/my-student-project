@@ -11,47 +11,53 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import StudentForm from './StudentForm.vue';
 
-export default {
-  components: { StudentForm },
-  data() {
-    return {
-      students: [],
-      currentStudentIndex: null
-    };
-  },
-  mounted() {
-    this.loadStudents();
-  },
-  methods: {
-    addStudent(student) {
-      if (this.currentStudentIndex !== null) {
-        this.students.splice(this.currentStudentIndex, 1);
-      }
-      this.students.unshift(student);
-      this.saveStudents();
-      this.currentStudentIndex = null;
-    },
-    editStudent(index) {
-      const student = this.students[index];
-      this.$refs.studentForm.setStudent(student);
-      this.currentStudentIndex = index;
-    },
-    removeStudent(index) {
-      this.students.splice(index, 1);
-      this.saveStudents();
-    },
-    saveStudents() {
-      localStorage.setItem('students', JSON.stringify(this.students));
-    },
-    loadStudents() {
-      const savedStudents = localStorage.getItem('students');
-      if (savedStudents) {
-        this.students = JSON.parse(savedStudents);
-      }
-    }
+// 定义响应式变量
+const students = ref([]);
+const currentStudentIndex = ref(null);
+const studentFormRef = ref(null);
+
+// 加载学生数据的方法
+const loadStudents = () => {
+  const savedStudents = localStorage.getItem('students');
+  if (savedStudents) {
+    students.value = JSON.parse(savedStudents);
   }
 };
+
+// 保存学生数据的方法
+const saveStudents = () => {
+  localStorage.setItem('students', JSON.stringify(students.value));
+};
+
+// 添加学生的方法
+const addStudent = (student) => {
+  if (currentStudentIndex.value !== null) {
+    students.value.splice(currentStudentIndex.value, 1);
+  }
+  students.value.unshift(student);
+  saveStudents();
+  currentStudentIndex.value = null;
+};
+
+// 编辑学生的方法
+const editStudent = (index) => {
+  const student = students.value[index];
+  studentFormRef.value.setStudent(student);
+  currentStudentIndex.value = index;
+};
+
+// 删除学生的方法
+const removeStudent = (index) => {
+  students.value.splice(index, 1);
+  saveStudents();
+};
+
+// 在组件挂载时调用 loadStudents 方法加载学生数据
+onMounted(() => {
+  loadStudents();
+});
 </script>

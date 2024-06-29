@@ -7,39 +7,47 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      name: '',
-      id: null,
-      number: '',
-      age: ''
-    };
-  },
-  methods: {
-    submit() {
-      if (!this.name || !this.number || !this.age) return;
-      this.$emit('add-student', {
-        name: this.name,
-        id: this.id || Date.now(),
-        number: this.number,
-        age: this.age
-      });
-      this.resetForm();
-    },
-    setStudent(student) {
-      this.name = student.name;
-      this.id = student.id;
-      this.number = student.number;
-      this.age = student.age;
-    },
-    resetForm() {
-      this.name = '';
-      this.id = null;
-      this.number = '';
-      this.age = '';
-    }
-  }
+<script setup>
+import { ref } from 'vue';
+
+const name = ref('');
+const id = ref(null);
+const number = ref('');
+const age = ref('');
+
+// 提交表单
+const submit = () => {
+  if (!name.value || !number.value || !age.value) return;
+  const student = {
+    name: name.value,
+    id: id.value || Date.now(),
+    number: number.value,
+    age: age.value
+  };
+  // 触发 'add-student' 事件，传递学生对象
+  emit('add-student', student);
+  resetForm();
 };
+
+// 设置学生数据
+const setStudent = (student) => {
+  name.value = student.name;
+  id.value = student.id;
+  number.value = student.number;
+  age.value = student.age;
+};
+
+// 重置表单
+const resetForm = () => {
+  name.value = '';
+  id.value = null;
+  number.value = '';
+  age.value = '';
+};
+
+// 获取上下文对象中的 emit 函数，用于触发自定义事件
+const emit = defineEmits(['add-student']);
+
+// 暴露 setStudent 方法，以便父组件调用
+defineExpose({ setStudent });
 </script>
