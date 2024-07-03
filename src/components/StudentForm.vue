@@ -20,9 +20,9 @@ const submit = () => {
   if (!name.value || !number.value || !age.value) return;
   const student = {
     name: name.value,
-    id: id.value || Date.now(),
-    number: number.value,
-    age: age.value
+id: id.value || Date.now(),
+number: number.value,
+age: age.value
   };
   // 触发 'add-student' 事件，传递学生对象
   emit('add-student', student);

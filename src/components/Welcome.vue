@@ -1,14 +1,19 @@
 <template>
-  <div class="flex flex-col items-center justify-center bg-gradient-to-br rounded-lg from-pink-500 to-orange-400" style="height: 300px;">
+  <div class="flex flex-col items-center justify-center bg-gradient-to-br rounded-lg from-blue-500 to-blue-200" style="height: 300px;">
     <h1 class="text-5xl font-bold mb-5 text-gray-800">欢迎来到学生管理系统</h1>
-    <router-link to="/students">
-      <button class="px-4 py-2 font-semibold bg-yellow-400 text-black rounded transition-transform duration-300 hover:scale-105 active:scale-95">
-        进入
-      </button>
-    </router-link>
+    <div class="button-container">
+    </div>
   </div>
 </template>
 
 <script setup>
 </script>
+
+<style>
+.button-container {
+  display: flex;
+  gap: 60px; /* 控制按钮之间的间距 */
+}
+</style>
+
 
